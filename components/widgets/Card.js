@@ -21,11 +21,11 @@ export default function Card(props) {
             </div>
             <div className="mt-6 flex justify-between items-end text-sm">
                 <div className="flex items-center">
-                    <VscTable className="mr-2 text-2xl text-redivisLightPurple" />
+                    <VscTable className="mr-2 text-2xl text-redivisDarkPurple" />
                     <div className="text-sm">{tableCount}</div>
                 </div>
                 <div className="flex items-center">
-                    <BsCalendarEvent className="mr-4 text-xl text-redivisLightBlue" />
+                    <BsCalendarEvent className="mr-4 text-xl text-redivisDarkBlue" />
                     <div className="text-sm">{date}</div>
                 </div>
             </div>

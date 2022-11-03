@@ -1,8 +1,8 @@
-import { useState } from "react";
-import Head from "next/head";
-import Card from "../components/widgets/Card";
-import SortBar from "../components/widgets/SortBar";
-import Image from "next/image";
+import { useState, useEffect } from "react"
+import Head from "next/head"
+import Card from "../components/widgets/Card"
+import FilterBar from "../components/widgets/Filters/FilterBar"
+import Image from "next/image"
 import logo from '../public/logo.png'
 
 export default function Home(props) {
@@ -10,6 +10,8 @@ export default function Home(props) {
     // datasets: [ { referenceId, name, description, createdAt, tableCount }, ]
     const { datasets } = props
 
+    const [ loading, setLoading ] = useState(true)
+    const [ showFilters, setShowFilters ] = useState(false)
     const [ allDatasets, setAllDatasets ] = useState(datasets)
     const [ resetButton, setResetButton] = useState(false)
     const [ activeSort, setActiveSort ] = useState(null)
@@ -18,6 +20,10 @@ export default function Home(props) {
         "createdAt": 1,
         "tableCount": 1,
     }) 
+
+    useEffect(() => {
+        setLoading(false)
+    }, [])
 
     const handleSort = (id) => {
         
@@ -51,12 +57,13 @@ export default function Home(props) {
         setSearchTerm(e.target.value)
 
         const datasetCopy = [...datasets]
+
         const filteredResults = datasetCopy.filter((data) => {
             return (
               data
               .name
               .toLowerCase()
-              .includes(searchTerm.toLowerCase())
+              .includes(e.target.value.toLowerCase())
             )
         })
 
@@ -70,36 +77,47 @@ export default function Home(props) {
         }
     }
 
-    return (
-        <div>
-            <Head>
-                <title>Redivis Public API</title>
-                <meta
-                    name="description"
-                    content="Data tables available from the Redivis REST API"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+    const handleShowFilters = () => {
+        setShowFilters(!showFilters)
+    }
+    
 
-            <main>
-                <Image src={logo} alt="logo" className="mx-auto w-56" priority />
+    if(loading) 
+        return (
+            <main className="text-center text-2xl font-bold animate-pulse">Loading...</main>
+        )
 
-                <SortBar handleSort={handleSort} handleReset={handleReset} handleSearch={handleSearch} sortDirection={sortDirection} reset={resetButton} selected={activeSort} searchTerm={searchTerm} />
+    if(!loading)
+        return (
+            <div>
+                <Head>
+                    <title>Redivis Public API</title>
+                    <meta
+                        name="description"
+                        content="Data tables available from the Redivis REST API"
+                    />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
 
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {allDatasets.map((data) => (
-                        <Card key={data.referenceId} 
-                            referenceId={data.referenceId} 
-                            createdAt={data.createdAt} 
-                            description={data.description} 
-                            name={data.name} 
-                            tableCount={data.tableCount} 
-                        />
-                    ))}
-                </div>
-            </main>
-        </div>
-    );
+                <main>
+                    <Image src={logo} alt="logo" className="mx-auto w-56" priority />
+
+                    <FilterBar handleSort={handleSort} handleReset={handleReset} handleSearch={handleSearch} handleShowFilters={handleShowFilters} sortDirection={sortDirection} reset={resetButton} selected={activeSort} searchTerm={searchTerm} showFilters={showFilters} results={allDatasets.length} />
+
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {allDatasets.map((data) => (
+                            <Card key={data.referenceId} 
+                                referenceId={data.referenceId} 
+                                createdAt={data.createdAt} 
+                                description={data.description} 
+                                name={data.name} 
+                                tableCount={data.tableCount} 
+                            />
+                        ))}
+                    </div>
+                </main>
+            </div>
+        )
 }
 
 export async function getStaticProps() {

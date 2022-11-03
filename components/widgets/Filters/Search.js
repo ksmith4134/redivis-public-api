@@ -5,7 +5,7 @@ export default function Search(props) {
     const { handleChange, searchTerm } = props
 
     return (
-        <div className="relative flex-1">
+        <form className="relative flex-1 min-w-[220px]">
             <input
                 type="text"
                 placeholder="Search by dataset name"
@@ -16,6 +16,6 @@ export default function Search(props) {
                 
             </input>
             <FiSearch className="absolute right-3 top-2.5 text-slate-400 text-2xl" />
-        </div>
+        </form>
     )
 }
