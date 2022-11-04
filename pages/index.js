@@ -107,7 +107,8 @@ export default function Home(props) {
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {allDatasets.map((data) => (
                             <Card key={data.referenceId} 
-                                referenceId={data.referenceId} 
+                                referenceId={data.referenceId}
+                                uri={data.uri} 
                                 createdAt={data.createdAt} 
                                 description={data.description} 
                                 name={data.name} 
@@ -144,6 +145,7 @@ export async function getStaticProps() {
     const datasets = results.map((data) => {
         return {
             referenceId: data.referenceId,
+            uri: data.uri,
             name: data.name,
             description: data.description,
             createdAt: data.createdAt,
