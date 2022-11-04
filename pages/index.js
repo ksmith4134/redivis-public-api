@@ -11,7 +11,7 @@ export default function Home(props) {
     const { datasets } = props
 
     const [ loading, setLoading ] = useState(true)
-    const [ showFilters, setShowFilters ] = useState(false)
+    const [ showFilters, setShowFilters ] = useState(true)
     const [ allDatasets, setAllDatasets ] = useState(datasets)
     const [ resetButton, setResetButton] = useState(false)
     const [ activeSort, setActiveSort ] = useState(null)

@@ -5,13 +5,14 @@ import { BsCalendarEvent } from 'react-icons/bs'
 
 export default function Card(props) {
 
-    const { referenceId, uri, createdAt, description, name, tableCount } = props
+    const { referenceId, createdAt, description, name, tableCount } = props
 
     const date = new Date(createdAt).toLocaleDateString()
-    const newName = name.toLowerCase().split(' ').join('_').split('.').join('_')
+    const escapedName = name.toLowerCase().replace(/[^a-zA-Z0-9]/g,'_').replace('___', '_').replace('__','_')
+
 
     return (
-        <Link href={`/datasets/${newName}`}>
+        <Link href={`/datasets/${escapedName}`}>
             <div className="p-6 rounded-md border-[1px] border-neutral-200 bg-slate-50 hover:shadow-xl hover:bg-slate-100 hover:scale-[1.02] transition duration-200">
                 <div className="font-bold font-lg text-redivisDarkPurple">{name}</div>
                 <div className="mt-2 flex items-center">

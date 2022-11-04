@@ -3,7 +3,7 @@ export default function Dataset(props){
 
     const { tables } = props
 
-    console.log("tables", tables.results)
+    // console.log("tables", tables.results)
 
 
     return (
@@ -37,7 +37,7 @@ export async function getStaticPaths() {
         paths: results.map((data)=>{
             return {
                 params: {
-                    id: data.name.toLowerCase().split(' ').join('_').split('.').join('_')
+                    id: data.name.toLowerCase().replace(/[^a-zA-Z0-9]/g,'_').replace('___', '_').replace('__','_')
                 }
             }
         }),
