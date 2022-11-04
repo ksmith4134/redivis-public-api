@@ -1,14 +1,16 @@
 import Link from "next/link"
 import { HiOutlineIdentification } from 'react-icons/hi'
-import { VscTable } from 'react-icons/vsc'
 import { BsCalendarEvent } from 'react-icons/bs'
+import { Access } from "../Theme"
 
 export default function Card(props) {
 
-    const { referenceId, createdAt, description, name, tableCount } = props
+    const { referenceId, createdAt, description, name, tableCount, accessLevel } = props
 
     const date = new Date(createdAt).toLocaleDateString()
     const escapedName = name.toLowerCase().replace(/[^a-zA-Z0-9]/g,'_').replace('___', '_').replace('__','_')
+
+    const AccessIcon = Access[accessLevel] ? Access[accessLevel] : Access["default"]
 
 
     return (
@@ -20,11 +22,11 @@ export default function Card(props) {
                     <div className="text-xs">{referenceId}</div>
                 </div>
                 <div className="mt-6 pb-6 md:h-36 text-sm border-b-[1px] overflow-y-hidden">
-                    {description ? description : "No description available"}
+                    {description}
                 </div>
                 <div className="mt-6 flex justify-between items-end text-sm">
                     <div className="flex items-center">
-                        <VscTable className="mr-2 text-2xl text-redivisDarkPurple" />
+                        <AccessIcon className="text-3xl mr-4" />
                         <div className="text-sm">{tableCount}</div>
                     </div>
                     <div className="flex items-center">

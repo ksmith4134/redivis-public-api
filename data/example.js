@@ -27,7 +27,7 @@ datasets: [
         },
         "publicAccessLevel": "data",
         "scopedAccessLevel": "data",
-        "accessLevel": "data"
+        "accessLevel": "data"           // overview, metadata
     }
 ]
 

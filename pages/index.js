@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import Head from "next/head"
 import Card from "../components/widgets/Card"
 import FilterBar from "../components/widgets/Filters/FilterBar"
 import Image from "next/image"
 import logo from '../public/logo.png'
+import { useDatasetContext } from "../components/DatasetProvider"
 
 export default function Home(props) {
 
-    // datasets: [ { referenceId, name, description, createdAt, tableCount }, ]
+    // datasets: [ { referenceId, uri, name, description, createdAt, tableCount, accessLevel }, ]
     const { datasets } = props
 
     const [ loading, setLoading ] = useState(true)
@@ -112,7 +113,8 @@ export default function Home(props) {
                                 createdAt={data.createdAt} 
                                 description={data.description} 
                                 name={data.name} 
-                                tableCount={data.tableCount} 
+                                tableCount={data.tableCount}
+                                accessLevel={data.accessLevel}
                             />
                         ))}
                     </div>
@@ -147,9 +149,10 @@ export async function getStaticProps() {
             referenceId: data.referenceId,
             uri: data.uri,
             name: data.name,
-            description: data.description,
+            description: data.description ? data.description : "No description available",
             createdAt: data.createdAt,
             tableCount: data.tableCount,
+            accessLevel: data.accessLevel,
         }
     })
 
